@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@section('title')
-    Riwayat Suhu
-@endsection
+
+@section('title', 'Riwayat Suhu')
+
 @section('content')
 <div class="container mb-5 ">
     <div class="row">
@@ -21,65 +21,70 @@
                 <table class="table table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <!-- <th>No</th> -->
                             <th>Tanggal</th>
                             <th>Jam</th>
                             <th>Suhu</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    @foreach($riwayatSuhu as $data)
                         <tr>
-                            <td>1</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
+                            <!-- <td> {{$data->id_suhu}} </td> -->
+                            <td>{{ $data->tanggal }}</td>
+                            <td>{{ $data->waktu }}</td>
+                            <td>{{ $data->suhu }}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>12-01-2023</td>
-                            <td>09.00</td>
-                            <td>30 <sup>o</sup>C</td>
-                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{-- Previous Page Link --}}
+                        @if ($riwayatSuhu->onFirstPage())
+                            <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $riwayatSuhu->previousPageUrl() }}" tabindex="-1">Previous</a>
+                            </li>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @for ($i = max(1, $riwayatSuhu->currentPage() - 3); $i <= min($riwayatSuhu->lastPage(), $riwayatSuhu->currentPage() + 3); $i++)
+                            @if (is_string($i))
+                                <li class="page-item disabled">
+                                    <span class="page-link">{{ $i }}</span>
+                                </li>
+                            @else
+                                <li class="page-item {{ $riwayatSuhu->currentPage() == $i ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $riwayatSuhu->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endif
+                        @endfor
+
+                        {{-- Next Page Link --}}
+                        @if ($riwayatSuhu->hasMorePages())
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $riwayatSuhu->nextPageUrl() }}">Next</a>
+                            </li>
+                        @else
+                            <li class="page-item disabled">
+                                <span class="page-link">Next</span>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
+
             </div>
         </div>
     </div>
 </div>
+
+ <!-- JavaScript Libraries -->
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    
 @endsection
