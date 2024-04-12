@@ -4,19 +4,33 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ParameterSuhu;
+use App\Models\Suhu;
+
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Seeder untuk parameter_suhu
+        ParameterSuhu::create([
+            'max_suhu' => 30,
+            'min_suhu' => 20,
+        ]);
+
+
+        // Seeder untuk suhu
+        Suhu::create([
+            'suhu' => 25.0,
+            'tanggal' => now()->toDateString(),
+            'waktu' => now()->toTimeString(),
+        ]);
+
     }
 }
