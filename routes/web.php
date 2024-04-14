@@ -33,6 +33,11 @@ Route::get('/login', function () {
     return view('login');
 });
 
+// Routing halaman registrasi
+Route::get('/register', function () {
+    return view('register');
+});
+
 // Routing halaman home
 Route::get('/ph', function () {
     return view('ph.ph');
