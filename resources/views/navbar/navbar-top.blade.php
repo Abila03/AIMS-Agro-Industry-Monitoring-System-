@@ -1,9 +1,10 @@
 <nav class="navbar navbar-expand-lg bg-green p-4">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="#">AIMS</a>
-        <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon" ></span>
+        <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav mx-auto">
@@ -16,7 +17,7 @@
             <div class="navbar-nav">
                 <button type="button" style="width: 3rem" class="mt-3 btn btn-success position-relative">
                     <i class="bi bi-bell"></i>
-                    <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         99+
                         <span class="visually-hidden">unread messages</span>
                     </span>

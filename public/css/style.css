@@ -81,6 +81,20 @@ input[type="password"]:focus {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* bayangan teks */
 }
 
+body::-webkit-scrollbar{
+    width: 0px;
+}
+
+@media (min-width: 1000px){
+    .posisi {
+        margin-left: -80px
+    }
+
+    .posisi-1 {
+        margin-left: -150px
+    }
+}
+
 @media (max-width: 1061px) {
     .image-text {
         bottom: 250px; /* jarak teks dari bawah */
