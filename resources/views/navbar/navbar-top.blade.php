@@ -16,7 +16,7 @@
             <div class="navbar-nav">
                 <button type="button" style="width: 3rem" class="mt-3 btn btn-success position-relative">
                     <i class="bi bi-bell"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         99+
                         <span class="visually-hidden">unread messages</span>
                     </span>
@@ -25,3 +25,22 @@
         </div>
     </div>
 </nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function fetchNotifications() {
+            $.ajax({
+                url: '/notification', 
+                method: 'GET',
+                success: function(response) {  
+                    $('#notificationBadge').text(response.unreadCount);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching notifications:', error);
+                }
+            });
+        }
+        // setInterval(fetchNotifications, 5000);
+    });
+</script>
