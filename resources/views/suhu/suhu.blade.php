@@ -39,7 +39,7 @@
                     </div>
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-warning float-end mt-3 p-2" style="width: 7rem">Save</button>
+                        <button class="btn btn-warning float-end mt-3 p-2" style="width: 7rem">Update</button>
                     </div>
                 </div>
             </form>
@@ -96,26 +96,25 @@
     gauge.setMinValue(0);
     gauge.animationSpeed = 32;
 
-    // Inisialisasi nilai awal pada gauge menggunakan nilai suhu dari PHP
+    
     var suhu = <?php echo $latestSuhu->suhu; ?>;
     gauge.set(suhu);
 
-    // Fungsi untuk memperbarui nilai pada gauge
     function updateGauge(suhu) {
-        gauge.set(suhu); // Mengatur nilai pada gauge sesuai dengan suhu terbaru
+        gauge.set(suhu); 
     }
 
-    // Fungsi untuk melakukan AJAX request dan mengambil data suhu terbaru
+
     function fetchLatestSuhu() {
         $.ajax({
-            url: '/suhu', // Endpoint yang sesuai dengan controller latestSuhu
+            url: '/suhu',
             method: 'GET',
             success: function(response) {
-                const suhu = response.suhu; // Mengambil nilai suhu terbaru dari respons
-                updateGauge(suhu); // Memperbarui nilai pada gauge
+                const suhu = response.suhu; 
+                updateGauge(suhu); 
             },
             error: function(xhr, status, error) {
-                console.error('Error fetching latest suhu:', error); // Menangani error jika terjadi
+                console.error('Error fetching latest suhu:', error);
             }
         });
     }
@@ -127,25 +126,21 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    // Fungsi untuk memperbarui tampilan suhu
     function updateSuhuDisplay(suhu) {
-        $('#suhu').text(suhu + ' °C'); // Update elemen HTML dengan ID 'suhu'
+        $('#suhu').text(suhu + ' °C'); 
     }
-
-    // Memperbarui tampilan suhu dengan nilai dari PHP
     updateSuhuDisplay(<?php echo $latestSuhu->suhu; ?>);
 
     function fetchLatestSuhu() {
         $.ajax({
-            url: '/suhu', // Endpoint yang sesuai dengan controller latestSuhu
+            url: '/suhu', 
             method: 'GET',
             success: function(response) {
-                // Proses data suhu yang diterima dari server
-                const suhu = response.suhu; // Asumsikan respons JSON berisi data suhu
-                updateSuhuDisplay(suhu); // Panggil fungsi untuk memperbarui tampilan suhu
+                const suhu = response.suhu;
+                updateSuhuDisplay(suhu);
             },
             error: function(xhr, status, error) {
-                console.error('Error fetching latest suhu:', error); // Tangani error jika terjadi
+                console.error('Error fetching latest suhu:', error);
             }
         });
     }
