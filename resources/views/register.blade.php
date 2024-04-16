@@ -14,12 +14,10 @@
     <div class="container position-absolute top-50 start-50 translate-middle">
         <div class="row justify-content-center">
             <div class="col-md-4 text-center text-white">
-                <form action="/home" method="post">
+            <form action="{{ route('register.submit') }}" method="post">
                     @csrf
-                    <input type="text" placeholder="username" class="mb-3 input form-control bg-input text-white"
-                        name="" id="">
-                    <input type="password" placeholder="password" class="input form-control bg-input text-white" name=""
-                        id="">
+                    <input type="text" placeholder="Username" class="mb-3 input form-control bg-input text-white" name="username">
+                    <input type="password" placeholder="Password" class="input form-control bg-input text-white" name="password">
                     <button type="submit" class="btn btn-warning mt-4">Register</button>
                 </form>
             </div>

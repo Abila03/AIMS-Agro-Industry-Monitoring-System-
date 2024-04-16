@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SuhuController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserController;
+
 
 
 /*
@@ -15,26 +18,28 @@ proses yang akan dilakukan sebelum diarahkan ke suatu halaman/view
 */
 
 
+Route::get('/', function(){
+    return view('welcome');
+});
+Route::get('/home', [HomeController::class, 'homeData'])->name('home');
 
-
-
-
-// Route::get('/notifications/check', [NotificationController::class, 'checkThresholds']);
-Route::post('/suhu', [SuhuController::class, 'updateparametersuhu']);
-// Route::get('/suhu', [SuhuController::class, 'tampilparameterSuhu']);
-Route::get('/riwayat-suhu', [SuhuController::class, 'index']);
 Route::get('/suhu', [SuhuController::class, 'latestSuhu']);
+Route::post('/suhu', [SuhuController::class, 'updateparametersuhu']);
 
-Route::post('/update-notification-count', [NotificationController::class, 'updateNotificationCount'])->name('update.notification.count');
+Route::get('/riwayat-suhu', [SuhuController::class, 'index'])->name('suhu.riwayat');
 
 
+Route::get('/register', [UserController::class, 'register'])->name('register');
+Route::post('/register', [UserController::class, 'create'])->name('register.submit');
 
-Route::get('/', [SuhuController::class, 'homeData']);
-Route::get('/home', [SuhuController::class, 'homeData']);
 
-// Route::get('/bacasuhu', [SuhuController::class, 'bacasuhu']);
+Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
+Route::post('/home', [UserController::class, 'login'])->name('login.submit');
+Route::post('/login', [UserController::class, 'logout'])->name('logout');
 
-// Routing halaman login
+
+Route::get('/get-notif', [NotificationController::class, 'checkNotifications'])->name('notifications');
+
 Route::get('/login', function () {
     return view('login');
 });
@@ -52,6 +57,35 @@ Route::get('/ph', function () {
 Route::get('/ppm', function () {
     return view('ppm.ppm');
 });
+
+
+// Route::get('/notifications', [NotificationController::class, 'index']);
+// Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead']);
+// Show registration form
+
+
+// Route::get('/notifications/check', [NotificationController::class, 'checkThresholds']);
+
+
+// Route::get('/riwayat-suhu', [SuhuController::class, 'index']);
+;
+
+
+
+
+
+
+// Route::get('/riwayat-suhu/filter/jam', [SuhuController::class, 'filterByJam'])->name('suhu.filter.jam');
+// Route::get('/riwayat-suhu/filter/hari', [SuhuController::class, 'filterByHari'])->name('suhu.filter.hari');
+// Route::get('/riwayat-suhu/filter/bulan', [SuhuController::class, 'filterByBulan'])->name('suhu.filter.bulan');
+
+
+// Route::get('/suhu', [HomeController::class, ''])->name('home');
+
+// Route::get('/bacasuhu', [SuhuController::class, 'bacasuhu']);
+
+// Routing halaman login
+
 
 // Route::get('/home', function () {
 //     return view('home');

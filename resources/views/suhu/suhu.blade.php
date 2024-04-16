@@ -33,10 +33,10 @@
                 <input type="text" class="form-control mt-3 p-2" placeholder="Masukkan parameter bawah" name="min_suhu" id="">
                 <div class="row">
                     <div class="col-md-8 mt-3">
-                    <div class="card p-2">
-                        <h6 style="margin-top: -6px">Parameter</h6>
-                        <h6 style="margin-top: -10px; margin-bottom: -4px"> <sup>o</sup>C  <sup>o</sup>C</h6>
-                    </div>
+                        <div class="card p-2">
+                            <h6 style="margin-top: -6px">Parameter</h6>
+                            <h6 id="parameter" style="margin-top: -10px; margin-bottom: -4px"> </h6>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-warning float-end mt-3 p-2" style="width: 7rem">Update</button>
@@ -68,8 +68,27 @@
 </div>
 @endsection
 
-@section('scripts')
+@section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    var parameterElement = document.getElementById('parameter');
+    <?php
+        $conn = mysqli_connect("127.0.0.1", "root" , "", "aims"); 
+        $parameter = mysqli_query($conn, "SELECT min_suhu, max_suhu FROM parameter_suhu");
+        $max = array();
+        $min = array();
+        while ($data_parameter = mysqli_fetch_array($parameter)) {
+            $min[] = $data_parameter['min_suhu'];
+            $max[] = $data_parameter['max_suhu'];
+        }
+    ?>
+    var minTemperature = <?php echo json_encode($min); ?>[0];
+    var maxTemperature = <?php echo json_encode($max); ?>[0];
+    var temperatureRange = minTemperature + '&nbsp;<sup>o</sup>C -&nbsp;' + maxTemperature + '&nbsp;<sup>o</sup>C';
+
+    parameterElement.innerHTML = temperatureRange;
+</script>
+
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <script>
     var opts = {
@@ -147,7 +166,6 @@
 
     // setInterval(fetchLatestSuhu, 5000);
 </script>
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

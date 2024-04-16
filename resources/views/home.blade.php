@@ -49,47 +49,77 @@
 
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
 
+<script>
+$(document).ready(function(){
+    $('#notifbtn').on('click', function (e) {
+        e.stopPropagation();
+        <?php
+            $conn = mysqli_connect("127.0.0.1", "root" , "", "aims");
+            $parameter = mysqli_query($conn, "SELECT min_suhu, max_suhu FROM parameter_suhu");
+            $parameterData = [];
+            while ($data_parameter = mysqli_fetch_assoc($parameter)) {
+                $parameterData[] = $data_parameter;
+            }
+            $suhunotif = mysqli_query($conn, "SELECT suhu FROM suhu ORDER BY id_suhu DESC LIMIT 1");
+            $suhuData = mysqli_fetch_assoc($suhunotif);
+            mysqli_close($conn);
+        ?>
+        var max = <?php echo $parameterData[0]['max_suhu']; ?>;
+        var min = <?php echo $parameterData[0]['min_suhu']; ?>;
+        var suhu = <?php echo $suhuData['suhu']; ?>;
+        if(suhu < min || suhu > max){
+            $('#notif-content').html("Suhu saat ini : "+ suhu +". Suhu Tidak Normal");
+        }else{
+            $('#notif-content').html("Suhu Normal");
+        }
+        $(this).next('.dropdown').find('[data-bs-toggle=dropdown]').dropdown('toggle');
+    });
+} );
+</script>
+
+<script>
     function updateSuhuDisplay(suhu) {
-        $('#suhu').text(suhu); // Update elemen HTML dengan ID 'suhu'
+        $('#suhu').text(suhu); 
     }
 
-    // Fungsi untuk memperbarui tampilan pH
+
     function updatePHDisplay(ph) {
-        $('#ph').text(ph); // Update elemen HTML dengan ID 'ph'
+        $('#ph').text(ph); 
     }
     updateSuhuDisplay(<?php echo $suhu->suhu; ?>);
     updatePHDisplay(<?php echo $ph->ph; ?>);
-    // Fungsi untuk melakukan AJAX request dan mengambil data suhu terbaru
+
     function fetchLatestSuhu() {
         $.ajax({
-            url: '/', // Endpoint yang sesuai dengan controller homeData
+            url: '/', 
             method: 'GET',
             success: function(response) {
-                const suhu = response.suhu; // Mengambil nilai suhu terbaru dari respons
-                updateSuhuDisplay(suhu); // Memperbarui tampilan suhu
+                const suhu = response.suhu; 
+                updateSuhuDisplay(suhu); 
             },
             error: function(xhr, status, error) {
-                console.error('Error fetching latest suhu:', error); // Menangani error jika terjadi
+                console.error('Error fetching latest suhu:', error);
             }
         });
     }
 
-    // Fungsi untuk melakukan AJAX request dan mengambil data pH terbaru
+ 
     function fetchLatestPH() {
         $.ajax({
-            url: '/', // Endpoint yang sesuai dengan controller homeData
+            url: '/', 
             method: 'GET',
             success: function(response) {
-                const ph = response.ph; // Mengambil nilai pH terbaru dari respons
-                updatePHDisplay(ph); // Memperbarui tampilan pH
+                const ph = response.ph;
+                updatePHDisplay(ph);
             },
             error: function(xhr, status, error) {
-                console.error('Error fetching latest pH:', error); // Menangani error jika terjadi
+                console.error('Error fetching latest pH:', error); 
             }
         });
     }
+
+    
 
     // setInterval(fetchLatestSuhu, 5000);
     // setInterval(fetchLatestPH, 5000);

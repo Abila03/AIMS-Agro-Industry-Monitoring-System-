@@ -2,41 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Suhu;
-use App\Models\Ppm;
-use App\Models\Ph;
-use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Models\Suhu;
+use App\Models\Ph;
+use App\Models\Ppm;
+use App\Models\Notification;
+use App\Models\ParameterSuhu;
 
 class NotificationController extends Controller
 {
-    public function checkThresholds()
+    public function checkNotifications()
     {
-        // Check suhu
-        $latestSuhu = Suhu::latest()->first();
-        if ($latestSuhu) {
-            if ($latestSuhu->suhu < $latestSuhu->parameter_bawah || $latestSuhu->suhu > $latestSuhu->parameter_atas) {
-                $this->createNotification('suhu', 'Nilai suhu telah melewati batas parameter.');
-            }
-        }
-
-        // Check ppm
-        $latestPpm = Ppm::latest()->first();
-        if ($latestPpm) {
-            if ($latestPpm->ppm < $latestPpm->parameter_bawah || $latestPpm->ppm > $latestPpm->parameter_atas) {
-                $this->createNotification('ppm', 'Nilai ppm telah melewati batas parameter.');
-            }
-        }
-
-        // Check ph
-        $latestPh = Ph::latest()->first();
-        if ($latestPh) {
-            if ($latestPh->ph < $latestPh->parameter_bawah || $latestPh->ph > $latestPh->parameter_atas) {
-                $this->createNotification('ph', 'Nilai pH telah melewati batas parameter.');
-            }
-        }
-
-        return response()->json(['message' => 'Thresholds checked successfully.']);
+        // Cek suhu
+        // $latestSuhu = Suhu::find(1);
+        // if ($latestSuhu) {
+        //     $latestParameterSuhu = $this->tampilparameterSuhu();
+        //     if ($latestSuhu->suhu < $latestParameterSuhu->min_suhu || $latestSuhu->suhu > $latestParameterSuhu->max_suhu) {
+        //         $this->createNotification('Suhu', 'Suhu diatas parameter. Segera tambahkan air dingin dan dinginkan instalasi');
+        //     }
+        // }
+    
+        // $notifications = Notification::latest()->get();
+        $notifications = array(
+            "id" => "1",
+            "suhu" => "50",
+            "max" => "true",
+            
+        );
+        //return view('home',['notifications' => $notifications]);
+        return response()->json($notifications);
     }
 
     private function createNotification($type, $message)
@@ -46,4 +40,14 @@ class NotificationController extends Controller
             'message' => $message,
         ]);
     }
+
+    public function tampilparameterSuhu()
+    {
+    $latestParameterSuhu = ParameterSuhu::find(1);
+    return $latestParameterSuhu;
+    }
+
+
+
+
 }
