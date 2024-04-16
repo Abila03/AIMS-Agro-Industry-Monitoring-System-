@@ -66,31 +66,15 @@
     </div>
 </nav>
 
-<!-- jQuery library -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
         function fetchNotifications() {
             $.ajax({
-                url: '/home', 
+                url: '/notification', 
                 method: 'GET',
-                success: function(response) {
-                    $('#notificationList').empty();
-                    if (response.notifications.length > 0) {
-                        response.notifications.forEach(function(notification) {
-                            $('#notificationList').append(`
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="row" style="margin-top: -30px">
-                                            <div class="col-md-12" style="white-space: pre-line;">
-                                                ${checkNotifications.message}
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            `);
-                        });
-                    }
+                success: function(response) {  
+                    $('#notificationBadge').text(response.unreadCount);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching notifications:', error);
@@ -99,68 +83,4 @@
         }
         // setInterval(fetchNotifications, 5000);
     });
-</script> -->
-
-
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {
-        function checkNotifications() {
-            $.ajax({
-                url: '/notifications',
-                method: 'GET',
-                success: function(response) {
-                    if (response.notifications.length > 0) {
-                        $('#notificationListItem').show();
-                        $('#notificationList').empty();
-                        response.notifications.forEach(function(notification) {
-                            $('#notificationList').append(`
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                    <div class="row">
-                                        <div class="col-md-2 text-center">
-                                            <img src="{{ asset('images/avatar.png') }}" class="mt-2" style="width: 30px; height: 30px;" alt="">
-                                        </div>
-                                        <div class="col-md-10">
-                                            <p class="fw-bold">System</p>
-                                            <p style="margin-top: -20px">Report</p>
-                                        </div>
-                                    </div>
-                                        <div class="row" style="margin-top: -30px">
-                                            <div class="col-md-12" style="white-space: pre-line;">
-                                                ${notification.message}
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            `);
-                        });
-                    } else {
-                        $('#notificationListItem').hide();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching notifications:', error);
-                }
-            });
-        }
-
-        // Call checkNotifications() every 5 seconds
-        setInterval(checkNotifications, 5000);
-
-        // Mark all notifications as read when "Mark All as Read" button is clicked
-        $('#markAllAsRead').on('click', function() {
-            $.ajax({
-                url: '/notifications/mark-all-as-read',
-                method: 'POST',
-                success: function(response) {
-                    // Fetch notifications again to update the list
-                    checkNotifications();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error marking all notifications as read:', error);
-                }
-            });
-        });
-    });
-</script> -->
+</script>

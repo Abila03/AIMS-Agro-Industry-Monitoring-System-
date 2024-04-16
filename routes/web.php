@@ -33,9 +33,12 @@ Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/register', [UserController::class, 'create'])->name('register.submit');
 
 
-Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
-Route::post('/home', [UserController::class, 'login'])->name('login.submit');
-Route::post('/login', [UserController::class, 'logout'])->name('logout');
+Route::post('/update-notification-count', [NotificationController::class, 'updateNotificationCount'])->name('update.notification.count');
+
+
+
+Route::get('/', [SuhuController::class, 'homeData']);
+Route::get('/home', [SuhuController::class, 'homeData']);
 
 
 Route::get('/get-notif', [NotificationController::class, 'checkNotifications'])->name('notifications');
