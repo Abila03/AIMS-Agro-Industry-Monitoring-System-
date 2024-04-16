@@ -23,7 +23,10 @@ Route::get('/riwayat-suhu', [SuhuController::class, 'index']);
 Route::get('/suhu', [SuhuController::class, 'latestSuhu']);
 
 
-Route::get('/', [SuhuController::class, 'homeData']);
+Route::get('/', function(){
+    return view('welcome');
+});
+
 Route::get('/home', [SuhuController::class, 'homeData']);
 
 // Route::get('/bacasuhu', [SuhuController::class, 'bacasuhu']);

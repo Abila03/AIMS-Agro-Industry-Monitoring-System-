@@ -61,7 +61,7 @@
                     <ul class="dropdown-menu dropdown-menu-dark mt-3 posisi">
                         <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit Profile</a></li>
                         <hr style="margin-top: 5px; margin-bottom: 5px">
-                        <li><a class="dropdown-item text-danger" href="#"><img src="{{ asset('images/icon-logout.png') }}" style="width: 18px; height: 18px;" class="me-1" alt=""> Keluar</a></li>
+                        <li><a class="dropdown-item text-danger" href="{{url('/')}}"><img src="{{ asset('images/icon-logout.png') }}" style="width: 18px; height: 18px;" class="me-1" alt=""> Keluar</a></li>
                     </ul>
                 </li>
             </div>
