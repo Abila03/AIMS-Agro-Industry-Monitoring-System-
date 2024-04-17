@@ -15,11 +15,22 @@
         <div class="row justify-content-center">
             <div class="col-md-4 text-center text-white">
             <form action="{{ route('register.submit') }}" method="post">
-                    @csrf
-                    <input type="text" placeholder="Username" class="mb-3 input form-control bg-input text-white" name="username">
-                    <input type="password" placeholder="Password" class="input form-control bg-input text-white" name="password">
-                    <button type="submit" class="btn btn-warning mt-4">Register</button>
-                </form>
+                @csrf
+                <div class="mb-3">
+                    <input type="text" placeholder="Username" class="mb-3 input form-control bg-input text-white @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}">
+                </div>
+                <div class="mb-3">
+                    <input type="password" placeholder="Password" class="mb-3 input form-control bg-input text-white @error('password') is-invalid @enderror" name="password">
+                    @error('username')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-warning mt-4">Daftar</button>
+            </form>
+
             </div>
         </div>
     </div>

@@ -68,11 +68,13 @@ $(document).ready(function(){
         var max = <?php echo $parameterData[0]['max_suhu']; ?>;
         var min = <?php echo $parameterData[0]['min_suhu']; ?>;
         var suhu = <?php echo $suhuData['suhu']; ?>;
-        if(suhu < min || suhu > max){
-            $('#notif-content').html("Suhu saat ini : "+ suhu +". Suhu Tidak Normal");
-        }else{
-            $('#notif-content').html("Suhu Normal");
-        }
+        if (suhu > max) {
+                $('#notif-content').html("Suhu saat ini: " + suhu + ". Suhu di atas parameter, segera tambahkan air dingin dan dinginkan instalasi");
+            } else if (suhu < min) {
+                $('#notif-content').html("Suhu saat ini: " + suhu + ". Suhu di bawah parameter, segera tambahkan air hangat dan hangatkan instalasi");
+            } else {
+                $('#notif-content').html("Suhu Normal");
+            }
         $(this).next('.dropdown').find('[data-bs-toggle=dropdown]').dropdown('toggle');
     });
 } );

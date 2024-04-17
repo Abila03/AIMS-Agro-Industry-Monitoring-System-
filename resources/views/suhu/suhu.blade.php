@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-warning float-end mt-3 p-2" style="width: 7rem">Update</button>
+                        <button id="btn-perbarui" class="btn btn-warning float-end mt-3 p-2" style="width: 7rem">Perbarui</button>
                     </div>
                 </div>
             </form>
@@ -70,6 +70,37 @@
 
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('#notifbtn').on('click', function (e) {
+        e.stopPropagation();
+        <?php
+            $conn = mysqli_connect("127.0.0.1", "root" , "", "aims");
+            $parameter = mysqli_query($conn, "SELECT min_suhu, max_suhu FROM parameter_suhu");
+            $parameterData = [];
+            while ($data_parameter = mysqli_fetch_assoc($parameter)) {
+                $parameterData[] = $data_parameter;
+            }
+            $suhunotif = mysqli_query($conn, "SELECT suhu FROM suhu ORDER BY id_suhu DESC LIMIT 1");
+            $suhuData = mysqli_fetch_assoc($suhunotif);
+            mysqli_close($conn);
+        ?>
+        var max = <?php echo $parameterData[0]['max_suhu']; ?>;
+        var min = <?php echo $parameterData[0]['min_suhu']; ?>;
+        var suhu = <?php echo $suhuData['suhu']; ?>;
+        if (suhu > max) {
+                $('#notif-content').html("Suhu saat ini: " + suhu + ". Suhu di atas parameter, segera tambahkan air dingin dan dinginkan instalasi");
+            } else if (suhu < min) {
+                $('#notif-content').html("Suhu saat ini: " + suhu + ". Suhu di bawah parameter, segera tambahkan air hangat dan hangatkan instalasi");
+            } else {
+                $('#notif-content').html("Suhu saat ini: " + suhu + ". Suhu Normal");
+            }
+        $(this).next('.dropdown').find('[data-bs-toggle=dropdown]').dropdown('toggle');
+    });
+} );
+</script>
+
 <script>
     var parameterElement = document.getElementById('parameter');
     <?php
@@ -87,6 +118,28 @@
     var temperatureRange = minTemperature + '&nbsp;<sup>o</sup>C -&nbsp;' + maxTemperature + '&nbsp;<sup>o</sup>C';
 
     parameterElement.innerHTML = temperatureRange;
+</script>
+
+<script>
+    var maxSuhuInput = document.getElementById('max_suhu');
+    var minSuhuInput = document.getElementById('min_suhu');
+    var perbaruiButton = document.getElementById('btn-perbarui');
+
+    maxSuhuInput.addEventListener('input', checkInputs);
+    minSuhuInput.addEventListener('input', checkInputs);
+
+    function checkInputs() {
+        var maxSuhuValue = maxSuhuInput.value.trim();
+        var minSuhuValue = minSuhuInput.value.trim();
+
+        if (maxSuhuValue !== '' && minSuhuValue !== '') {
+            perbaruiButton.disabled = false;
+        } else {
+            perbaruiButton.disabled = true;
+        }
+    }
+
+    checkInputs();
 </script>
 
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
@@ -129,7 +182,7 @@
             url: '/suhu',
             method: 'GET',
             success: function(response) {
-                const suhu = response.suhu; 
+                var suhu = response.suhu; 
                 updateGauge(suhu); 
             },
             error: function(xhr, status, error) {
@@ -155,7 +208,7 @@
             url: '/suhu', 
             method: 'GET',
             success: function(response) {
-                const suhu = response.suhu;
+                var suhu = response.suhu;
                 updateSuhuDisplay(suhu);
             },
             error: function(xhr, status, error) {
@@ -170,9 +223,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('grafik-suhu');
-    const labels = [];
-    const suhuData = [];
+    var ctx = document.getElementById('grafik-suhu');
+    var labels = [];
+    var suhuData = [];
     <?php
         $conn = mysqli_connect("127.0.0.1", "root" , "", "aims"); 
         $suhu = mysqli_query($conn, "SELECT waktu, suhu FROM suhu WHERE waktu >= NOW() - INTERVAL 1 DAY ORDER BY waktu ASC");
@@ -182,7 +235,7 @@
         }
     ?>
 
-    const data = {
+    var data = {
         labels: labels,
         datasets: [{
             label: 'Grafik Suhu 24 Jam',
@@ -193,12 +246,12 @@
         }]
     };
 
-    const config = {
+    var config = {
         type: 'line',
         data: data,
     };
 
-    const myChart = new Chart(ctx, config);
+    var myChart = new Chart(ctx, config);
 </script>
 
 

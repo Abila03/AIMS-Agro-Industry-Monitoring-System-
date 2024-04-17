@@ -26,8 +26,7 @@
                                     class="position-absolute p-2 bg-primary mt-1 rounded-circle">
                                     <span class="visually-hidden">New alerts</span>
                                 </span>
-                                <span class="ms-5 text-primary">Mark
-                                    all as read</span></a></li>
+                                <span class="ms-5 text-primary"></span></a></li>
                         <hr>
                         <li>
                             <a class="dropdown-item" href="#">
@@ -58,7 +57,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark mt-3 posisi">
                         <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-2"></i>Edit Profile</a></li>
-                        <li><a class="dropdown-item text-danger" href="#">Keluar</a></li>
+                        <li><a class="dropdown-item text-danger" href="/">Keluar</a></li>
                     </ul>
                 </li>
             </div>

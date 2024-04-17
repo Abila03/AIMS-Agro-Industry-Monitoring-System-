@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 use App\Models\Suhu;
 use App\Models\Ph;
 use App\Models\ParameterSuhu;
 use App\Models\Control;
 use Illuminate\Support\Carbon;
+
 
 class SuhuController extends Controller
 {
@@ -32,22 +34,31 @@ class SuhuController extends Controller
                 case 'hari':
                     $riwayatSuhu->select(
                         Suhu::raw('DATE_FORMAT(tanggal, "%Y-%m-%d") as tanggal'),
+                        Suhu::raw('DAYNAME(tanggal) as hari'),
                         Suhu::raw('AVG(suhu) as suhu')
                     )
-                    ->groupBy(Suhu::raw('DATE_FORMAT(tanggal, "%Y-%m-%d")'))
-                    ->orderBy(Suhu::raw('DATE_FORMAT(tanggal, "%Y-%m-%d")'), 'desc');
+                    ->groupBy(Suhu::raw('DATE_FORMAT(tanggal, "%Y-%m-%d")'), Suhu::raw('hari')) 
+                    ->orderBy(Suhu::raw('tanggal'), 'desc'); 
+
+                $riwayatSuhu->orderByRaw("FIELD(hari, " . implode(',', array_map(function($day) {
+                    return "'" . trans('day.' . strtolower($day)) . "'";
+                }, ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])) . ")");
+                break;
+                    
+                
+                
+                
+
+                case 'bulan':
+                    $riwayatSuhu->select(
+                        Suhu::raw('YEAR(tanggal) as tahun'),
+                        Suhu::raw("MONTHNAME(tanggal) as bulan"),
+                        Suhu::raw('AVG(suhu) as suhu')
+                    )
+                    ->groupBy(Suhu::raw('YEAR(tanggal)'), Suhu::raw('MONTHNAME(tanggal)'))
+                    ->orderBy(Suhu::raw('YEAR(tanggal)'), 'desc')
+                    ->orderBy(Suhu::raw('MONTH(tanggal)'), 'desc');
                     break;
-    
-                    case 'bulan':
-                        $riwayatSuhu->select(
-                            Suhu::raw('YEAR(tanggal) as tahun'),
-                            Suhu::raw("MONTHNAME(tanggal) as bulan"),
-                            Suhu::raw('AVG(suhu) as suhu')
-                        )
-                        ->groupBy(Suhu::raw('YEAR(tanggal)'), Suhu::raw('MONTHNAME(tanggal)'))
-                        ->orderBy(Suhu::raw('YEAR(tanggal)'), 'desc')
-                        ->orderBy(Suhu::raw('MONTH(tanggal)'), 'desc');
-                        break;
                     
                     
     

@@ -12,16 +12,16 @@
 </head>
 
 <body class="bg-green">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="image-container">
-                <img src="{{ asset('images/home.png') }}" class="img-fluid" alt="Deskripsi Gambar">
-                <p class="image-text">Selamat Datang, Mitra</p>
-                <p class="image-text-1">Dissuade ecstatic and properly saw entirely sir why laughter endeavor. In on my
-                    jointure
-                    horrible margaret suitable he
-                    speedily.</p>
-                <a href="{{ url('login') }}" class="btn text-white btn-outline-warning btn-login p-2" style="width: 7rem">Login</a>
+    <div class="container-fluid d-flex align-items-center justify-content-center vh-100">
+        <div class="image-container text-center">
+            <img src="{{ asset('images/home.png') }}" class="img-fluid mb-4" alt="Deskripsi Gambar">
+            <p class="image-text">Selamat Datang, Mitra</p>
+            <p class="image-text-1">Dissuade ecstatic and properly saw entirely sir why laughter endeavor. In on my
+                jointure
+                horrible margaret suitable he
+                speedily.</p>
+            <div class="button-container">
+                <a href="/login" class="btn btn-warning btn-register p-2" style="width: 7rem">Login</a>
                 <a href="{{ url('register') }}" class="btn btn-warning btn-register p-2" style="width: 7rem">Register</a>
             </div>
         </div>

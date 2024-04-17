@@ -26,6 +26,7 @@
                             <th>Tanggal</th>
                             <th>Jam</th>
                         @elseif($filter === 'hari')
+                            <th>Hari</th>
                             <th>Tanggal</th>
                         @elseif($filter === 'bulan')
                             <th>Bulan</th>
@@ -44,6 +45,7 @@
                                 <td>{{ $data->tanggal }}</td>
                                 <td>{{ $data->jam }}</td>
                             @elseif($filter === 'hari')
+                                <td>{{ __('day.' . strtolower($data->hari)) }}</td>
                                 <td>{{ $data->tanggal }}</td>
                             @elseif($filter === 'bulan')
                                 <td>{{ $data->bulan }}</td>

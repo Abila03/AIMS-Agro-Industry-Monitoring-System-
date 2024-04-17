@@ -36,7 +36,7 @@ input[type="password"]:focus {
 }
 
 .nav-link.active {
-    border-bottom: 1.8px solid #F7C35F; /* Ganti dengan warna dan ketebalan border yang diinginkan */
+    border-bottom: 2px solid #F7C35F; /* Ganti dengan warna dan ketebalan border yang diinginkan */
 }
 
 
