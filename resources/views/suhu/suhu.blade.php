@@ -29,8 +29,8 @@
             <h2>Parameter Suhu</h2>
             <form action="" method="post">
                 @csrf
-                <input type="text" class="form-control mt-3 p-2" placeholder="Masukkan parameter atas" name="max_suhu" id="">
-                <input type="text" class="form-control mt-3 p-2" placeholder="Masukkan parameter bawah" name="min_suhu" id="">
+                <input type="text" class="form-control mt-3 p-2" placeholder="Masukkan parameter atas" name="max_suhu" id="max_suhu">
+                <input type="text" class="form-control mt-3 p-2" placeholder="Masukkan parameter bawah" name="min_suhu" id="min_suhu">
                 <div class="row">
                     <div class="col-md-8 mt-3">
                         <div class="card p-2">
@@ -121,26 +121,32 @@ $(document).ready(function(){
 </script>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     var maxSuhuInput = document.getElementById('max_suhu');
     var minSuhuInput = document.getElementById('min_suhu');
     var perbaruiButton = document.getElementById('btn-perbarui');
-
-    maxSuhuInput.addEventListener('input', checkInputs);
-    minSuhuInput.addEventListener('input', checkInputs);
 
     function checkInputs() {
         var maxSuhuValue = maxSuhuInput.value.trim();
         var minSuhuValue = minSuhuInput.value.trim();
 
-        if (maxSuhuValue !== '' && minSuhuValue !== '') {
+        if (maxSuhuValue !== '' || minSuhuValue !== '') {
             perbaruiButton.disabled = false;
         } else {
             perbaruiButton.disabled = true;
         }
     }
+    perbaruiButton.disabled = true;
+    setInterval(checkInputs, 1000);
+    maxSuhuInput.addEventListener('input', checkInputs);
+    minSuhuInput.addEventListener('input', checkInputs);
 
-    checkInputs();
+
+
+});
 </script>
+
+
 
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <script>

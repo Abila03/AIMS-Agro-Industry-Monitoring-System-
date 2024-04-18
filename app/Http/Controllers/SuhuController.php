@@ -101,20 +101,39 @@ class SuhuController extends Controller
 
     public function updateparametersuhu(Request $request)
     {
-      try {
-        $parameter = ParameterSuhu::find(1);
-        $maxSuhu = $request->input('max_suhu');
-        $minSuhu = $request->input('min_suhu');
-        $parameter->max_suhu = $maxSuhu;
-        $parameter->min_suhu = $minSuhu;
-        $parameter->save();
-        return redirect()->back()->with('success', 'Parameter suhu berhasil diperbarui.');
-    } catch (\Illuminate\Database\QueryException $e) {
-        return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui parameter suhu: ' . $e->getMessage());
-    } catch (Exception $e) {
-        return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui parameter suhu.');
+        try {
+            $request->validate([
+                'max_suhu' => 'nullable|numeric',
+                'min_suhu' => 'nullable|numeric',
+            ]);
+
+            if (!$request->filled('max_suhu') && !$request->filled('min_suhu')) {
+                return redirect()->back()->with('error', 'Minimal satu bidang harus diisi.');
+            }
+
+            $parameter = ParameterSuhu::find(1);
+
+            if ($request->filled('max_suhu')) {
+                $parameter->max_suhu = $request->max_suhu;
+            }
+
+            if ($request->filled('min_suhu')) {
+                $parameter->min_suhu = $request->min_suhu;
+            }
+
+            $parameter->save();
+            return redirect()->back()->with('success', 'Parameter suhu berhasil diperbarui.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui parameter suhu: ' . $e->getMessage());
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui parameter suhu: ' . $e->getMessage());
+        }
     }
-    }
+    
+    
+    
+    
+    
 
     // public function tampilparameterSuhu()
     // {
