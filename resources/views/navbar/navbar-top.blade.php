@@ -57,7 +57,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark mt-3 posisi">
                         <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-2"></i>Edit Profile</a></li>
-                        <li><a class="dropdown-item text-danger" href="/">Keluar</a></li>
+                        <li><a class="dropdown-item text-danger" href="{{ route('logout') }}">Keluar</a></li>
                     </ul>
                 </li>
             </div>

@@ -18,16 +18,19 @@
                     @csrf
                     <div class="mb-3">
                         <input type="text" placeholder="Username" class="mb-3 input form-control bg-input text-white @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}">
-
                     </div>
                     <div class="mb-3">
                         <input type="password" placeholder="Password" class="mb-3 input form-control bg-input text-white @error('password') is-invalid @enderror" name="password">
-                        @error('username')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        @if ($errors->has('username') || $errors->has('password'))
+                            <div class="alert alert-danger">
+                                @if ($errors->has('username'))
+                                    {{ $errors->first('username') }}
+                                @elseif ($errors->has('password'))
+                                    {{ $errors->first('password') }}
+                                @endif
+                            </div>
+                        @endif
+
                     </div>
                     <button type="submit" class="btn btn-warning mt-4">Masuk</button>
                 </form>

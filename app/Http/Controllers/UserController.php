@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
 class UserController extends Controller
@@ -44,6 +45,7 @@ class UserController extends Controller
         return redirect()->route('welcome');
     }
     
+    
 
     public function showLoginForm()
     {
@@ -52,28 +54,46 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required|exists:users,username',
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
             'password' => 'required',
         ], [
             'username.required' => 'Isi data dengan lengkap!',
             'password.required' => 'Isi data dengan lengkap!',
-            'username.exists' => 'Akun tidak ditemukan, silahkan gunakan data lain atau daftar akun.',
         ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
     
         $credentials = $request->only('username', 'password');
     
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->route('home');
         } else {
-            return back()->withErrors(['username' => 'Invalid credentials']);
+            // Jika otentikasi gagal, cek apakah username ada di database
+            $userExists = User::where('username', $credentials['username'])->exists();
+            if (!$userExists) {
+                return back()->withErrors(['username' => 'Akun tidak ditemukan, silahkan gunakan data lain atau daftar akun.'])->withInput();
+            } else {
+                return back()->withErrors(['password' => 'Kombinasi username dan password tidak valid'])->withInput();
+            }
         }
     }
+    
+    
+    
+    
+    
+    
     
 
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('home');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('logout');
     }
 }
